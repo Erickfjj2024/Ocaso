@@ -106,14 +106,17 @@ func trigger_game_over(cause: String) -> void:
 
 	# Aguardar um frame antes de carregar a tela de Game Over
 	await get_tree().process_frame
-	_load_game_over_screen()
+	_load_game_over_screen(cause)
 
-## Carrega a cena de Game Over (ou recarrega a cena atual se ela ainda não existir).
-func _load_game_over_screen() -> void:
+## Carrega a cena de Game Over e passa o motivo via metadado da SceneTree.
+func _load_game_over_screen(cause: String) -> void:
 	if ResourceLoader.exists(GAME_OVER_SCENE_PATH):
-		change_scene(GAME_OVER_SCENE_PATH)
+		# Guarda o motivo antes de trocar a cena — game_over_screen.gd lê via get_meta
+		get_tree().set_meta("game_over_cause", cause)
+		# Preserva a cena de gameplay para o game_over_screen retornar a ela
+		get_tree().set_meta("gameplay_scene", _current_scene_path)
+		get_tree().call_deferred("change_scene_to_file", GAME_OVER_SCENE_PATH)
 	else:
-		# Fallback de desenvolvimento: recarrega a cena atual após breve pausa
 		push_warning("GameManager: game_over_screen.tscn não encontrada. Recarregando cena atual.")
 		await get_tree().create_timer(2.0).timeout
 		set_state(GameState.PLAYING)

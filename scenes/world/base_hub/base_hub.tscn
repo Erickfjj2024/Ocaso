@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/base_hub/base_hub.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud/hud.tscn" id="3_hud"]
 
 ; Paredes da sala — 4 retângulos finos formando uma arena 288×156 px
 [sub_resource type="RectangleShape2D" id="Wall_top"]
@@ -81,3 +82,7 @@ shape = SubResource("Wall_right")
 ; Instância do player — começa no centro da sala
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 0)
+
+; ── HUD ───────────────────────────────────────────────────────
+; CanvasLayer layer=10 — não afetado pelo CanvasModulate do mundo
+[node name="HUD" parent="." instance=ExtResource("3_hud")]

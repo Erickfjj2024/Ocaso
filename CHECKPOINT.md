@@ -49,18 +49,19 @@ scenes/player/
 
 ---
 
-## SPRINT 3 — PENDENTE ⏳
+## SPRINT 3 — CONCLUÍDO ✅
 
-### Próximos passos (aguardando autorização do usuário)
-Tarefa 1.5 do GDD — HUD básica:
-- `scenes/ui/hud/hud.gd` — Barra de sanidade + indicador de lanterna reativos via EventBus
+- [x] `scenes/ui/hud/hud.gd` + `hud.tscn` — Barras SAN/LAN, cor muda por limiar, CanvasLayer imune ao escuro
+- [x] `scenes/ui/menus/game_over_screen.gd` + `.tscn` — Tela preta, mensagem de causa, retorno em 3s
+- [x] `autoloads/game_manager.gd` — Passa cause via SceneTree.set_meta
+- [x] `scenes/world/base_hub/base_hub.tscn` — HUD instanciada
 
-Tarefa 1.6 do GDD — Mapa de teste / base_hub:
-- `scenes/world/base_hub/base_hub.gd` — Script da cena de teste
-- Shader de escuridão: `assets/shaders/darkness_overlay.gdshader`
+## FASE 1 — COMPLETA ✅
+| 1.1 | project.godot | ✅ | 1.2 | Autoloads | ✅ | 1.3 | Player | ✅ |
+| 1.4 | Lanterna | ✅ | 1.5 | Sanidade | ✅ | 1.6 | Mapa | ✅ | 1.7 | Game Over | ✅ |
 
-Tarefa 1.7 do GDD — Game Over:
-- `scenes/ui/menus/game_over_screen.tscn` (placeholder) + `game_over_screen.gd`
+## PRÓXIMA FASE — FASE 2 (aguardando autorização)
+Combate e IA Stalker: HitBox/HurtBox, stalker_base + FSM, LightSensor, BackstabDetector, NavigationAgent2D
 
 ---
 

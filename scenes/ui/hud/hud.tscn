@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/hud/hud.gd" id="1_script"]
+
+; ── HUD (CanvasLayer layer=10) ────────────────────────────────
+; CanvasLayer isola a HUD da CanvasModulate do mundo —
+; os elementos da UI sempre aparecem com brilho total.
+[node name="HUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_script")
+
+; ── SANIDADE ─────────────────────────────────────────────────
+
+; Rótulo "SAN"
+[node name="SanityLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 36.0
+offset_bottom = 13.0
+text = "SAN"
+theme_override_font_sizes/font_size = 8
+
+; Fundo escuro da barra de sanidade
+[node name="SanityBG" type="ColorRect" parent="."]
+offset_left = 36.0
+offset_top = 5.0
+offset_right = 96.0
+offset_bottom = 12.0
+color = Color(0.15, 0.15, 0.15, 0.85)
+
+; Preenchimento da barra (largura controlada por hud.gd)
+[node name="SanityFill" type="ColorRect" parent="SanityBG"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 60.0
+offset_bottom = 7.0
+color = Color(0.2, 0.8, 0.35, 1.0)
+
+; ── LANTERNA ─────────────────────────────────────────────────
+
+; Rótulo "LAN [ON/--]"
+[node name="LanternLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 24.0
+text = "LAN"
+theme_override_font_sizes/font_size = 8
+
+; Fundo escuro da barra de lanterna
+[node name="LanternBG" type="ColorRect" parent="."]
+offset_left = 36.0
+offset_top = 16.0
+offset_right = 96.0
+offset_bottom = 23.0
+color = Color(0.15, 0.15, 0.15, 0.85)
+
+; Preenchimento da barra (largura controlada por hud.gd)
+[node name="LanternFill" type="ColorRect" parent="LanternBG"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 60.0
+offset_bottom = 7.0
+color = Color(0.4, 1.0, 0.5, 1.0)

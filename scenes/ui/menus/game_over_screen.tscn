@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/menus/game_over_screen.gd" id="1_script"]
+
+; ── GameOverScreen (Control, tela cheia) ─────────────────────
+[node name="GameOverScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_script")
+
+; Fundo preto total
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0, 0.0, 0.0, 1.0)
+
+; Container central com os textos
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -20.0
+offset_right = 80.0
+offset_bottom = 20.0
+alignment = 1
+
+; Título "OCASO"
+[node name="TitleLabel" type="Label" parent="VBox"]
+text = "OCASO"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.7, 0.15, 0.15, 1.0)
+
+; Motivo da morte (preenchido pelo script)
+[node name="CauseLabel" type="Label" parent="VBox"]
+text = "A escuridão te consumiu."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.75, 0.65, 0.65, 1.0)
+
+; "Retornando..."
+[node name="ReturnLabel" type="Label" parent="VBox"]
+text = "Retornando em 3 segundos..."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 7
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1.0)
