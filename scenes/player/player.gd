@@ -29,7 +29,6 @@ var _last_move_direction: Vector2 = Vector2.DOWN
 # NÓS FILHOS (preenchidos no _ready)
 # ─────────────────────────────────────────────────────────────
 
-@onready var _sprite: Sprite2D             = $Sprite2D
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
 @onready var _camera: Camera2D             = $Camera2D
 
