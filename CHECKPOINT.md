@@ -16,6 +16,7 @@
 
 ### Arquivos criados
 ```
+project.godot         ← adicionado na correção pós-Sprint 1
 autoloads/
   event_bus.gd
   game_manager.gd
