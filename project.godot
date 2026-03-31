@@ -36,6 +36,10 @@ window/stretch/mode="canvas_items"
 window/stretch/scale=3.0
 window/stretch/scale_mode="integer"
 
+[gdscript]
+
+warnings/unused_signal=0
+
 [input]
 
 move_right={
@@ -82,11 +86,6 @@ interact={
 [physics]
 
 2d/default_gravity=0
-
-[gdscript]
-
-; UNUSED_SIGNAL é esperado no EventBus: sinais são pub/sub usados por outros scripts.
-warnings/unused_signal=0
 
 [rendering]
 

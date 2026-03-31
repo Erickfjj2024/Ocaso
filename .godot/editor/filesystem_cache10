@@ -1,11 +1,11 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1774991151
+::res://::1774992527
 CHECKPOINT.md::TextFile::-1::1774991151::0::1::::<><><>0<>0<><>::
 GDD_Ocaso.md::TextFile::-1::1774989556::0::1::::<><><>0<>0<><>::
-::res://autoloads/::1774990441
+::res://autoloads/::1774992527
 event_bus.gd::GDScript::2009458051797312285::1774990384::0::1::::<>Node<><>0<>0<><>::
 game_manager.gd::GDScript::8956360835289411261::1774990384::0::1::::<>Node<><>0<>0<><>::
-lantern_manager.gd::GDScript::5109780431505142914::1774990384::0::1::::<>Node<><>0<>0<><>::
+lantern_manager.gd::GDScript::5109780431505142914::1774992527::0::1::::<>Node<><>0<>0<><>::
 sanity_manager.gd::GDScript::8488483824433975949::1774990385::0::1::::<>Node<><>0<>0<><>::
 ::res://scenes/::1774991151
 ::res://scenes/player/::1774991820
