@@ -87,10 +87,11 @@ func restore_sanity(amount: float) -> void:
 		# Reverter limiares já cruzados se a sanidade subiu acima deles
 		_check_threshold_resets()
 
-## Define diretamente o valor de sanidade (usado pelo SaveManager ao carregar).
+## Define diretamente o valor de sanidade (usado pelo SaveManager e pelo reset de cena).
 func set_sanity(value: float) -> void:
 	current_sanity = clampf(value, 0.0, MAX_SANITY)
 	_reset_thresholds_from_current_value()
+	EventBus.sanity_changed.emit(current_sanity, 0.0)
 
 ## Modifica o dreno passivo (usado por nós da Árvore de Cicatrizes).
 ## multiplier: 1.0 = normal, 1.3 = 30% mais rápido, etc.
