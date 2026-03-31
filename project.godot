@@ -83,6 +83,11 @@ interact={
 
 2d/default_gravity=0
 
+[gdscript]
+
+; UNUSED_SIGNAL é esperado no EventBus: sinais são pub/sub usados por outros scripts.
+warnings/unused_signal=0
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

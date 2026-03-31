@@ -31,9 +31,14 @@ var _is_force_disabled: bool = false
 # ─────────────────────────────────────────────────────────────
 
 func _ready() -> void:
-	# Nenhum sinal externo precisa ser conectado na inicialização.
-	# A lanterna é controlada pelo player e por sistemas de boss/NPC via API pública.
-	pass
+	# Lanterna começa LIGADA para que o player seja visível desde o início.
+	# O sinal é emitido no próximo frame para garantir que os listeners
+	# (player_lantern.gd, sanity_manager.gd) já estão conectados.
+	call_deferred("_emit_initial_state")
+
+func _emit_initial_state() -> void:
+	is_on = true
+	EventBus.lantern_toggled.emit(is_on)
 
 # ─────────────────────────────────────────────────────────────
 # LOOP PRINCIPAL
