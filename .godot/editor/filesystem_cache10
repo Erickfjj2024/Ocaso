@@ -2,9 +2,9 @@
 ::res://::1774992973
 CHECKPOINT.md::TextFile::-1::1774992980::0::1::::<><><>0<>0<><>::
 GDD_Ocaso.md::TextFile::-1::1774989556::0::1::::<><><>0<>0<><>::
-::res://autoloads/::1774992973
+::res://autoloads/::1774993301
 event_bus.gd::GDScript::2009458051797312285::1774990384::0::1::::<>Node<><>0<>0<><>::
-game_manager.gd::GDScript::8956360835289411261::1774992973::0::1::::<>Node<><>0<>0<><>::
+game_manager.gd::GDScript::8956360835289411261::1774993301::0::1::::<>Node<><>0<>0<><>::
 lantern_manager.gd::GDScript::5109780431505142914::1774992527::0::1::::<>Node<><>0<>0<><>::
 sanity_manager.gd::GDScript::8488483824433975949::1774990385::0::1::::<>Node<><>0<>0<><>::
 ::res://scenes/::1774992980
@@ -14,10 +14,10 @@ player.tscn::PackedScene::-1::1774991486::0::1::::<><><>0<>0<><>::res://scenes/p
 player_lantern.gd::GDScript::1140661043671823503::1774991151::0::1::::<>Node2D<><>0<>0<><>::
 player_lantern.tscn::PackedScene::-1::1774991486::0::1::::<><><>0<>0<><>::res://scenes/player/player_lantern.gd
 ::res://scenes/ui/::1774992980
-::res://scenes/ui/hud/::1774992980
+::res://scenes/ui/hud/::1774992987
 hud.gd::GDScript::1869999881852819432::1774992980::0::1::::<>CanvasLayer<><>0<>0<><>::
 hud.tscn::PackedScene::-1::1774992980::0::1::::<><><>0<>0<><>::res://scenes/ui/hud/hud.gd
-::res://scenes/ui/menus/::1774992980
+::res://scenes/ui/menus/::1774992987
 game_over_screen.gd::GDScript::2426731990903322777::1774992980::0::1::::<>Control<><>0<>0<><>::
 game_over_screen.tscn::PackedScene::-1::1774992980::0::1::::<><><>0<>0<><>::res://scenes/ui/menus/game_over_screen.gd
 ::res://scenes/world/::1774990859
