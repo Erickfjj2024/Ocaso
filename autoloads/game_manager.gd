@@ -111,10 +111,13 @@ func trigger_game_over(cause: String) -> void:
 ## Carrega a cena de Game Over e passa o motivo via metadado da SceneTree.
 func _load_game_over_screen(cause: String) -> void:
 	if ResourceLoader.exists(GAME_OVER_SCENE_PATH):
-		# Guarda o motivo antes de trocar a cena — game_over_screen.gd lê via get_meta
+		# Se a cena foi carregada diretamente pelo Godot (main_scene) e não via
+		# change_scene(), _current_scene_path estará vazio — busca da SceneTree.
+		var gameplay_path := _current_scene_path
+		if gameplay_path.is_empty() and get_tree().current_scene != null:
+			gameplay_path = get_tree().current_scene.scene_file_path
 		get_tree().set_meta("game_over_cause", cause)
-		# Preserva a cena de gameplay para o game_over_screen retornar a ela
-		get_tree().set_meta("gameplay_scene", _current_scene_path)
+		get_tree().set_meta("gameplay_scene", gameplay_path)
 		get_tree().call_deferred("change_scene_to_file", GAME_OVER_SCENE_PATH)
 	else:
 		push_warning("GameManager: game_over_screen.tscn não encontrada. Recarregando cena atual.")
