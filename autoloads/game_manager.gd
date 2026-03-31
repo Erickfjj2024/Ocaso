@@ -65,7 +65,7 @@ func set_state(new_state: GameState) -> void:
 		GameState.CUTSCENE:
 			get_tree().paused = false  # Cutscenes podem rodar normalmente
 		GameState.GAME_OVER:
-			get_tree().paused = true
+			get_tree().paused = false  # Não pausar: o call_deferred da troca de cena precisa rodar
 		GameState.MENU:
 			get_tree().paused = false
 
@@ -104,8 +104,8 @@ func trigger_game_over(cause: String) -> void:
 	# Por ora, emite o sinal para a UI reagir
 	EventBus.game_over_triggered.emit(cause)
 
-	# Aguardar um frame antes de carregar a tela de Game Over
-	await get_tree().process_frame
+	# Chamar direto — call_deferred dentro de _load_game_over_screen já garante
+	# que a troca de cena ocorre no próximo frame sem bloquear o fluxo atual.
 	_load_game_over_screen(cause)
 
 ## Carrega a cena de Game Over e passa o motivo via metadado da SceneTree.

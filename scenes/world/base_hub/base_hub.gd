@@ -5,5 +5,11 @@
 extends Node2D
 
 func _ready() -> void:
-	# Inicia o jogo assim que a cena carrega
+	# Resetar managers — autoloads persistem entre cenas, então precisamos
+	# garantir valores iniciais frescos a cada vez que a gameplay começa.
+	SanityManager.set_sanity(SanityManager.MAX_SANITY)
+	LanternManager.repair(LanternManager.MAX_DURABILITY)
+	LanternManager.force_enable()
+	LanternManager.turn_on()
+
 	GameManager.set_state(GameManager.GameState.PLAYING)
