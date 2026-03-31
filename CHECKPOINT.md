@@ -42,6 +42,13 @@ scenes/player/
 
 ---
 
+## SPRINT 2 — CORREÇÕES PÓS-TESTE ✅
+- [x] Removido `@onready _sprite` inexistente em `player.gd`
+- [x] `warnings/unused_signal=0` em `project.godot` (EventBus é pub/sub)
+- [x] Lanterna inicia ligada via `call_deferred` no `LanternManager`
+
+---
+
 ## SPRINT 3 — PENDENTE ⏳
 
 ### Próximos passos (aguardando autorização do usuário)
