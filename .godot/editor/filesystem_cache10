@@ -9,8 +9,8 @@ lantern_manager.gd::GDScript::5109780431505142914::1775006865::0::1::::<>Node<><
 sanity_manager.gd::GDScript::8488483824433975949::1775006865::0::1::::<>Node<><>0<>0<><>::
 ::res://scenes/::1775029049
 ::res://scenes/enemies/::1775029049
-::res://scenes/enemies/base/::1775029945
-backstab_detector.gd::GDScript::7287867386630465962::1775029520::0::1::::<>Node<><>0<>0<><>::
+::res://scenes/enemies/base/::1775030133
+backstab_detector.gd::GDScript::7287867386630465962::1775030133::0::1::::<>Node<><>0<>0<><>::
 hitbox.gd::GDScript::2563338986934779796::1775029049::0::1::::<>Area2D<><>0<>0<><>::
 hurtbox.gd::GDScript::5879972050051894818::1775029944::0::1::::<>Area2D<><>0<>0<><>::
 light_sensor.gd::GDScript::7742526916343349876::1775029520::0::1::::<>Area2D<><>0<>0<><>::
