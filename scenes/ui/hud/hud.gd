@@ -12,7 +12,8 @@ extends CanvasLayer
 @onready var _lantern_fill: ColorRect = $LanternBG/LanternFill
 @onready var _sanity_label:  Label    = $SanityLabel
 @onready var _lantern_label: Label    = $LanternLabel
-@onready var _damage_flash: ColorRect = $DamageFlash
+@onready var _damage_flash:  ColorRect = $DamageFlash
+@onready var _taels_label:   Label     = $TaelsLabel
 
 # Largura máxima das barras em pixels (deve coincidir com o BG de cada barra)
 const BAR_MAX_WIDTH: float = 60.0
@@ -30,12 +31,14 @@ func _ready() -> void:
 	EventBus.sanity_changed.connect(_on_sanity_changed)
 	EventBus.lantern_durability_changed.connect(_on_lantern_durability_changed)
 	EventBus.lantern_toggled.connect(_on_lantern_toggled)
+	EventBus.taels_changed.connect(_on_taels_changed)
 
 	# Sincroniza com o estado atual dos managers ao entrar na cena
 	_update_hp_bar(100.0, 100.0)
 	_update_sanity_bar(SanityManager.current_sanity)
 	_update_lantern_bar(LanternManager.durability)
 	_update_lantern_label(LanternManager.is_on)
+	_taels_label.text = "T: %d" % InventoryManager.taels
 
 # ─────────────────────────────────────────────────────────────
 # ATUALIZAÇÃO DAS BARRAS
@@ -81,6 +84,9 @@ func _update_lantern_label(is_on: bool) -> void:
 
 func _on_player_hp_changed(new_hp: float, max_hp: float) -> void:
 	_update_hp_bar(new_hp, max_hp)
+
+func _on_taels_changed(new_amount: int) -> void:
+	_taels_label.text = "T: %d" % new_amount
 
 func _on_player_damaged(_amount: float, _source: String) -> void:
 	_damage_flash.color.a = 0.45

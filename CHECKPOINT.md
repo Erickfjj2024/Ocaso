@@ -60,8 +60,36 @@ scenes/player/
 | 1.1 | project.godot | ✅ | 1.2 | Autoloads | ✅ | 1.3 | Player | ✅ |
 | 1.4 | Lanterna | ✅ | 1.5 | Sanidade | ✅ | 1.6 | Mapa | ✅ | 1.7 | Game Over | ✅ |
 
-## PRÓXIMA FASE — FASE 2 (aguardando autorização)
-Combate e IA Stalker: HitBox/HurtBox, stalker_base + FSM, LightSensor, BackstabDetector, NavigationAgent2D
+## FASE 2 — COMPLETA ✅
+| 2.1 | HitBox/HurtBox | ✅ | 2.2 | Stalker + FSM | ✅ | 2.3 | LightSensor | ✅ |
+| 2.4 | BackstabDetector | ✅ | 2.5 | NavigationAgent2D | ✅ | 2.6 | Player Combat | ✅ |
+
+---
+
+## SPRINT 7 — FASE 3 Parte 1: Progressão e Economia — CONCLUÍDO ✅
+
+### O que foi feito
+- [x] `resources/items/item_base.gd` — Resource base para todos os itens (id, nome, icon, stackable, value_taels)
+- [x] `autoloads/inventory_manager.gd` — Taels + itens, add/remove, penalidade de morte (-50% taels + 1–3 itens perdidos)
+- [x] `autoloads/world_flags.gd` — Flags narrativas persistentes (set/get/has/increment/reset)
+- [x] `project.godot` — InventoryManager e WorldFlags registrados como Autoloads (prioridade 5ª e 7ª)
+- [x] `game_manager.gd` — trigger_game_over chama InventoryManager.apply_death_penalty()
+- [x] `hud.gd` + `hud.tscn` — Contador de Taels ("T: 0") atualizado via EventBus.taels_changed
+
+### Lógica de drop de Taels
+- Stalker morto → `enemy_killed` → InventoryManager escuta → adiciona 5–15 Taels aleatórios
+- Morte do player → GameManager → `apply_death_penalty()` → perde 50% dos Taels acumulados
+
+### Arquivos criados/modificados
+```
+resources/items/item_base.gd     ← NOVO
+autoloads/inventory_manager.gd   ← NOVO
+autoloads/world_flags.gd         ← NOVO
+project.godot                    ← +InventoryManager, +WorldFlags
+autoloads/game_manager.gd        ← penalidade de morte conectada
+scenes/ui/hud/hud.gd             ← +TaelsLabel, +_on_taels_changed
+scenes/ui/hud/hud.tscn           ← +TaelsLabel node
+```
 
 ---
 

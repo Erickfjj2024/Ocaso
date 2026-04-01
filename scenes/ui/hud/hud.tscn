@@ -82,6 +82,16 @@ offset_right = 60.0
 offset_bottom = 7.0
 color = Color(0.4, 1.0, 0.5, 1.0)
 
+; ── TAELS ────────────────────────────────────────────────────
+
+[node name="TaelsLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 37.0
+offset_right = 100.0
+offset_bottom = 46.0
+text = "T: 0"
+theme_override_font_sizes/font_size = 8
+
 ; ── Flash de dano (cobre a tela inteira por instante) ─────────
 ; Cor vermelha com alpha=0; o script anima o alpha via modulate
 [node name="DamageFlash" type="ColorRect" parent="."]

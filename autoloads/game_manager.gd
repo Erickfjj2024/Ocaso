@@ -100,8 +100,9 @@ func trigger_game_over(cause: String) -> void:
 
 	set_state(GameState.GAME_OVER)
 
-	# Aplicar penalidades de morte no InventoryManager (Fase 3 implementará isso)
-	# Por ora, emite o sinal para a UI reagir
+	# Penalidade de morte: -50% Taels + 1–3 itens perdidos (GDD 3.3)
+	InventoryManager.apply_death_penalty()
+
 	EventBus.game_over_triggered.emit(cause)
 
 	# Chamar direto — call_deferred dentro de _load_game_over_screen já garante
