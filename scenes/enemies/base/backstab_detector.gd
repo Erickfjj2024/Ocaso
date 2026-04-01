@@ -38,8 +38,8 @@ func _physics_process(delta: float) -> void:
 	if not GameManager.is_playing():
 		return
 
-	var stalker    := get_parent()
-	var player_ref := stalker.player_ref
+	var stalker: Node2D    = get_parent()
+	var player_ref: Node2D = stalker.get(&"player_ref") as Node2D
 
 	if player_ref == null:
 		_reset()
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	var dir_to_stalker: Vector2 = (stalker.global_position - player_ref.global_position).normalized()
 
 	# Direção que o player está olhando
-	var player_facing: Vector2 = player_ref.facing_direction
+	var player_facing: Vector2 = player_ref.get(&"facing_direction")
 
 	# dot < threshold → stalker está atrás do player
 	var dot: float = dir_to_stalker.dot(player_facing)
