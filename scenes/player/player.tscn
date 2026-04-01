@@ -1,12 +1,25 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player_lantern.tscn" id="2_lantern"]
+[ext_resource type="Script" path="res://scenes/player/player_combat.gd" id="3_combat"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hurtbox.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hitbox.gd" id="5_hitbox"]
 
 ; Cápsula de colisão do corpo do player
 [sub_resource type="CapsuleShape2D" id="Capsule_1"]
 radius = 5.0
 height = 10.0
+
+; HurtBox — círculo que envolve o corpo (recebe dano)
+; Layer 8 = player_hurtbox | monitorado por hitboxes de inimigos
+[sub_resource type="CircleShape2D" id="Circle_hurtbox"]
+radius = 8.0
+
+; HitBox — círculo frontal do ataque (causa dano)
+; Layer 5 = player_hitbox | monitorável por hurtboxes de inimigos
+[sub_resource type="CircleShape2D" id="Circle_hitbox"]
+radius = 10.0
 
 ; ── Raiz do Player ────────────────────────────────────────────
 ; Layer 1 = "player" | Mask 2 = "walls"
@@ -36,3 +49,27 @@ position_smoothing_speed = 8.0
 
 ; Sub-cena da lanterna instanciada como filha do player
 [node name="PlayerLantern" parent="." instance=ExtResource("2_lantern")]
+
+; Componente de combate: HP, take_damage, start_attack
+[node name="PlayerCombat" type="Node" parent="."]
+script = ExtResource("3_combat")
+
+; HurtBox: recebe dano de inimigos (layer 8, monitora layer 6 = enemy_hitbox)
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("4_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("Circle_hurtbox")
+
+; HitBox: causa dano em inimigos ao atacar (layer 5, monitorável por enemy_hurtbox)
+; Inicia inativo — player_combat.gd chama activate() ao atacar
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("5_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(10, 0)
+shape = SubResource("Circle_hitbox")

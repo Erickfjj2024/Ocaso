@@ -7,24 +7,30 @@ extends CanvasLayer
 # NÓS FILHOS
 # ─────────────────────────────────────────────────────────────
 
+@onready var _hp_fill:      ColorRect = $HPBG/HPFill
 @onready var _sanity_fill:  ColorRect = $SanityBG/SanityFill
 @onready var _lantern_fill: ColorRect = $LanternBG/LanternFill
 @onready var _sanity_label:  Label    = $SanityLabel
 @onready var _lantern_label: Label    = $LanternLabel
 
-# Largura máxima das barras em pixels (deve coincidir com SanityBG.size.x)
+# Largura máxima das barras em pixels (deve coincidir com o BG de cada barra)
 const BAR_MAX_WIDTH: float = 60.0
+
+# HP máximo local — atualizado via player_hp_changed
+var _max_hp: float = 100.0
 
 # ─────────────────────────────────────────────────────────────
 # INICIALIZAÇÃO
 # ─────────────────────────────────────────────────────────────
 
 func _ready() -> void:
+	EventBus.player_hp_changed.connect(_on_player_hp_changed)
 	EventBus.sanity_changed.connect(_on_sanity_changed)
 	EventBus.lantern_durability_changed.connect(_on_lantern_durability_changed)
 	EventBus.lantern_toggled.connect(_on_lantern_toggled)
 
 	# Sincroniza com o estado atual dos managers ao entrar na cena
+	_update_hp_bar(100.0, 100.0)
 	_update_sanity_bar(SanityManager.current_sanity)
 	_update_lantern_bar(LanternManager.durability)
 	_update_lantern_label(LanternManager.is_on)
@@ -32,6 +38,15 @@ func _ready() -> void:
 # ─────────────────────────────────────────────────────────────
 # ATUALIZAÇÃO DAS BARRAS
 # ─────────────────────────────────────────────────────────────
+
+func _update_hp_bar(new_hp: float, max_hp: float) -> void:
+	_max_hp = max_hp
+	var pct := clampf(new_hp / max_hp, 0.0, 1.0)
+	_hp_fill.size.x = BAR_MAX_WIDTH * pct
+	if pct > 0.5:
+		_hp_fill.color = Color(0.85, 0.2, 0.2)   # vermelho normal
+	else:
+		_hp_fill.color = Color(1.0, 0.1, 0.1)    # vermelho crítico
 
 func _update_sanity_bar(value: float) -> void:
 	var pct := clampf(value / SanityManager.MAX_SANITY, 0.0, 1.0)
@@ -61,6 +76,9 @@ func _update_lantern_label(is_on: bool) -> void:
 # ─────────────────────────────────────────────────────────────
 # CALLBACKS
 # ─────────────────────────────────────────────────────────────
+
+func _on_player_hp_changed(new_hp: float, max_hp: float) -> void:
+	_update_hp_bar(new_hp, max_hp)
 
 func _on_sanity_changed(new_value: float, _delta: float) -> void:
 	_update_sanity_bar(new_value)

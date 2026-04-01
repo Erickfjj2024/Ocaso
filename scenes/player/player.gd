@@ -61,9 +61,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_playing():
 		return
 
-	# Delegar toggle de lanterna para o nó filho PlayerLantern
 	if event.is_action_pressed("lantern_toggle"):
 		_toggle_lantern()
+
+	if event.is_action_pressed("attack"):
+		_start_attack()
+
+# ─────────────────────────────────────────────────────────────
+# COMBATE
+# ─────────────────────────────────────────────────────────────
+
+func _start_attack() -> void:
+	var combat := get_node_or_null("PlayerCombat")
+	if combat:
+		combat.start_attack()
 
 # ─────────────────────────────────────────────────────────────
 # MOVIMENTO

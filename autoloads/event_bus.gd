@@ -40,6 +40,10 @@ signal lantern_force_disabled(source: String)
 # COMBATE
 # ─────────────────────────────────────────────────────────────
 
+## Emitido quando o HP do player muda (dano ou cura).
+## new_hp: valor atual, max_hp: HP máximo (para calcular % na HUD)
+signal player_hp_changed(new_hp: float, max_hp: float)
+
 ## Emitido quando o player recebe dano.
 ## source: identificador de quem causou o dano
 signal player_damaged(amount: float, source: String)

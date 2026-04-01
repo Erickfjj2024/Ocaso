@@ -12,4 +12,9 @@ func _ready() -> void:
 	LanternManager.force_enable()
 	LanternManager.turn_on()
 
+	# Reseta HP do PlayerCombat (filho do Player instanciado nesta cena)
+	var combat := get_node_or_null("Player/PlayerCombat")
+	if combat:
+		combat.reset()
+
 	GameManager.set_state(GameManager.GameState.PLAYING)
