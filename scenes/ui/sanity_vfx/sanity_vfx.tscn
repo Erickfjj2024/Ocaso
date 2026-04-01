@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/sanity_vfx/sanity_vfx.gd" id="1_script"]
+[ext_resource type="Shader" path="res://resources/shaders/vignette.gdshader" id="2_shader"]
+
+; Material da vinheta com parâmetro `strength` controlado pelo script
+[sub_resource type="ShaderMaterial" id="ShaderMat_vignette"]
+shader = ExtResource("2_shader")
+shader_parameter/strength = 0.0
+shader_parameter/vignette_color = Color(0.02, 0.0, 0.06, 1.0)
+
+; ── SanityVFX (CanvasLayer layer=2) ──────────────────────────
+; Layer 2: abaixo da HUD (10) mas acima dos itens do mundo (0).
+; A vinheta e o tint são renderizados antes da HUD — correto.
+[node name="SanityVFX" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_script")
+
+; Vinheta: escurece bordas conforme Sanidade cai.
+; ShaderMaterial controla a intensidade via `strength` uniform.
+[node name="VignetteRect" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(1.0, 1.0, 1.0, 1.0)
+material = SubResource("ShaderMat_vignette")
+mouse_filter = 2
+
+; Tint roxo/vermelho: alpha sobe quando Sanidade < 15, pulsa no _process.
+[node name="TintRect" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0.15, 0.0, 0.25, 0.0)
+mouse_filter = 2
+
+; Flash preto: usado pela transformação do Guardião e outros eventos dramáticos.
+[node name="BlackFlash" type="ColorRect" parent="."]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0.0, 0.0, 0.0, 1.0)
+mouse_filter = 2
