@@ -36,6 +36,7 @@ var is_backstab_ready: bool    = false  # preenchido pelo BackstabDetector
 @onready var _nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var _hitbox:  Area2D              = $HitBox
 @onready var _hurtbox: Area2D              = $HurtBox
+@onready var _hp_fill: ColorRect           = $EnemyHPBar/HPBarFill
 
 # ─────────────────────────────────────────────────────────────
 # PATRULHA
@@ -122,10 +123,14 @@ func try_attack() -> void:
 func take_damage(amount: float, source: String) -> void:
 	current_hp = maxf(current_hp - amount, 0.0)
 	EventBus.enemy_damaged.emit(enemy_id, amount)
-	# Flash de dano (clareia o placeholder por 0.1s)
+	_update_hp_bar()
 	_flash_damage()
 	if current_hp <= 0.0:
 		_die()
+
+func _update_hp_bar() -> void:
+	var pct := clampf(current_hp / max_hp, 0.0, 1.0)
+	_hp_fill.size.x = 30.0 * pct
 
 func _die() -> void:
 	EventBus.enemy_killed.emit(enemy_id)

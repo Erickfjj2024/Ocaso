@@ -36,19 +36,14 @@ func _on_area_entered(area: Area2D) -> void:
 	if is_invulnerable:
 		return
 
-	# Verifica se a área entrante é um HitBox válido e ativo
+	# Verifica se a área entrante é um HitBox válido
 	if not area.has_method("get_damage"):
 		return
 
-	var amount: float  = area.get_damage()
-	var source: String = area.get_source_id()
-
-	hurt.emit(amount, source)
-
-	# Delega ao nó pai se ele implementar take_damage (conveniência)
-	var owner_node := get_parent()
-	if owner_node.has_method("take_damage"):
-		owner_node.take_damage(amount, source)
+	# Emite sinal — quem precisa reagir deve conectar-se ao sinal `hurt`.
+	# Não chama take_damage() diretamente para evitar dano duplo em entidades
+	# que tanto conectam o sinal quanto têm take_damage() no pai.
+	hurt.emit(area.get_damage(), area.get_source_id())
 
 # ─────────────────────────────────────────────────────────────
 # API PÚBLICA

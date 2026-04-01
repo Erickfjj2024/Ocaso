@@ -12,6 +12,7 @@ extends CanvasLayer
 @onready var _lantern_fill: ColorRect = $LanternBG/LanternFill
 @onready var _sanity_label:  Label    = $SanityLabel
 @onready var _lantern_label: Label    = $LanternLabel
+@onready var _damage_flash: ColorRect = $DamageFlash
 
 # Largura máxima das barras em pixels (deve coincidir com o BG de cada barra)
 const BAR_MAX_WIDTH: float = 60.0
@@ -25,6 +26,7 @@ var _max_hp: float = 100.0
 
 func _ready() -> void:
 	EventBus.player_hp_changed.connect(_on_player_hp_changed)
+	EventBus.player_damaged.connect(_on_player_damaged)
 	EventBus.sanity_changed.connect(_on_sanity_changed)
 	EventBus.lantern_durability_changed.connect(_on_lantern_durability_changed)
 	EventBus.lantern_toggled.connect(_on_lantern_toggled)
@@ -79,6 +81,12 @@ func _update_lantern_label(is_on: bool) -> void:
 
 func _on_player_hp_changed(new_hp: float, max_hp: float) -> void:
 	_update_hp_bar(new_hp, max_hp)
+
+func _on_player_damaged(_amount: float, _source: String) -> void:
+	_damage_flash.color.a = 0.45
+	await get_tree().create_timer(0.08).timeout
+	if is_instance_valid(_damage_flash):
+		_damage_flash.color.a = 0.0
 
 func _on_sanity_changed(new_value: float, _delta: float) -> void:
 	_update_sanity_bar(new_value)

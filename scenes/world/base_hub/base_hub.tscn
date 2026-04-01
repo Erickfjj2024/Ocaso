@@ -88,6 +88,13 @@ position = Vector2(0, 0)
 ; CanvasLayer layer=10 — não afetado pelo CanvasModulate do mundo
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
 
+; ── NavigationRegion2D ───────────────────────────────────────
+; Necessário para NavigationAgent2D do Stalker.
+; O polígono de navegação deve cobrir o chão jogável (288×156 px centrado em 0,0).
+; IMPORTANTE: abra base_hub.tscn no editor e desenhe o NavigationPolygon
+; cobrindo o interior da sala (área livre de paredes).
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
 ; ── Stalker de teste ──────────────────────────────────────────
 ; Posicionado à direita do player (0,0) dentro da sala
 [node name="StalkerBase" parent="." instance=ExtResource("4_stalker")]
