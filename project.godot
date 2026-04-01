@@ -30,6 +30,7 @@ LanternManager="*res://autoloads/lantern_manager.gd"
 InventoryManager="*res://autoloads/inventory_manager.gd"
 ScarTreeManager="*res://autoloads/scar_tree_manager.gd"
 WorldFlags="*res://autoloads/world_flags.gd"
+AudioManager="*res://autoloads/audio_manager.gd"
 SaveManager="*res://autoloads/save_manager.gd"
 
 [display]

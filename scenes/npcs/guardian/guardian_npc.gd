@@ -101,7 +101,7 @@ func _run_transformation() -> void:
 	# ── BEAT 3 (1s) — O APAGÃO ───────────────────────────────
 	# Lanterna apaga. Tela vai para preto. Cura da lanterna é revertida.
 	LanternManager.force_disable("guardian")
-	LanternManager.repair(-repair_amount)   # revert: set_durability desconta
+	LanternManager.set_durability(LanternManager.durability - repair_amount)  # revert Beat 1
 	EventBus.base_lockdown.emit(true)
 
 	# Escurece a tela via SanityVFX (se disponível)

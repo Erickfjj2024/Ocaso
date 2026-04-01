@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/npcs/lost_npc/lost_npc.gd" id="1_script"]
+
+[sub_resource type="CircleShape2D" id="Circle_interact"]
+radius = 22.0
+
+; ── Raiz ─────────────────────────────────────────────────────
+[node name="LostNPC" type="Node2D"]
+script = ExtResource("1_script")
+
+; Placeholder visual — figura encolhida, amarelo-terroso (medo)
+[node name="BodyPlaceholder" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-4, -8, 4, -8, 4, 8, -4, 8)
+color = Color(0.6, 0.5, 0.15, 1.0)
+
+; Cabeça
+[node name="HeadPlaceholder" type="Polygon2D" parent="."]
+position = Vector2(0, -12)
+polygon = PackedVector2Array(-3, -3, 3, -3, 3, 3, -3, 3)
+color = Color(0.65, 0.52, 0.2, 1.0)
+
+; Zona de interação (mask 1 = player body)
+[node name="InteractionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone"]
+shape = SubResource("Circle_interact")

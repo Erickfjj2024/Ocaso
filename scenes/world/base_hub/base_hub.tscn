@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/base_hub/base_hub.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/base/stalker_base.tscn" id="4_stalker"]
 [ext_resource type="PackedScene" path="res://scenes/npcs/guardian/guardian_npc.tscn" id="5_guardian"]
 [ext_resource type="PackedScene" path="res://scenes/ui/sanity_vfx/sanity_vfx.tscn" id="6_vfx"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/lost_npc/lost_npc.tscn" id="7_lostnpc"]
+[ext_resource type="Script" path="res://scenes/world/guilt_spawner.gd" id="8_spawner"]
 
 ; Paredes da sala — 4 retângulos finos formando uma arena 288×156 px
 [sub_resource type="RectangleShape2D" id="Wall_top"]
@@ -105,6 +107,16 @@ position = Vector2(0, 0)
 ; Pressionar E perto dele exibe diálogo via HUD.
 [node name="GuardianNPC" parent="." instance=ExtResource("5_guardian")]
 position = Vector2(-100, -40)
+
+; ── NPC Perdido de teste ─────────────────────────────────────
+; Pressionar E para interagir; Z durante a janela = sacrificar
+[node name="LostNPC" parent="." instance=ExtResource("7_lostnpc")]
+position = Vector2(60, -50)
+
+; ── Eco da Culpa: spawner de fantasmas ───────────────────────
+; Ativo somente quando WorldFlags["has_murdered"]=true
+[node name="GuiltSpawner" type="Node" parent="."]
+script = ExtResource("8_spawner")
 
 ; ── Stalker de teste ──────────────────────────────────────────
 ; Posicionado à direita do player (0,0) dentro da sala
