@@ -135,6 +135,29 @@ project.godot                               ← +SaveManager
 autoloads/game_manager.gd                   ← stubs conectados
 ```
 
+---
+
+## SPRINT 10 — FASE 4 Parte 1: HUD Gaslighter — CONCLUÍDO ✅
+
+### O que foi feito
+- [x] `scenes/ui/hud/hud_gaslighter.gd` — 5 manipulações + scheduler ponderado
+  - Ativa no `critical_15`, desativa quando Sanidade > 30
+  - Scheduler: timer 6-12s, sorteio ponderado [3,2,3,2,1] entre manipulações disponíveis
+  - **0 — HP Falso:** exibe HP cheio por 2-4s (cooldown 15s)
+  - **1 — Inversão:** `EventBus.force_gaslighting.emit(dur)` por 2-4s (cooldown 20s)
+  - **2 — Taels Zerados:** exibe "T: 0" por 2s (cooldown 10s)
+  - **3 — Mapa Fantasma:** Label "▶" vermelha pulsante na borda da tela, direção calculada longe de inimigos reais, 3-5s (cooldown 20s)
+  - **4 — Cura Falsa:** SAN sobe para 65% via Tween, mantém 3s, colapsa com glitch branco/vermelho (1x/crise, delay mínimo 10s)
+- [x] `scenes/ui/hud/hud.gd` — flags `hp_locked`, `sanity_locked`, `taels_locked`; update das barras respeitam os locks do gaslighter
+- [x] `scenes/ui/hud/hud.tscn` — nó `HUDGaslighter` + `PhantomArrow` (Label "▶" oculta)
+
+### Arquivos criados/modificados
+```
+scenes/ui/hud/hud_gaslighter.gd    ← NOVO
+scenes/ui/hud/hud.gd               ← +flags de lock nas barras
+scenes/ui/hud/hud.tscn             ← +HUDGaslighter, +PhantomArrow
+```
+
 ## FASE 3 — COMPLETA ✅
 | 3.1 | InventoryManager | ✅ | 3.2 | Taels | ✅ | 3.3 | Penalidade de morte | ✅ |
 | 3.4 | Base Hub + Guardião | ✅ | 3.5/3.6 | ScarTree + Manager | ✅ | 3.7 | SaveManager | ✅ |

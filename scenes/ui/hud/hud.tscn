@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/hud/hud.gd" id="1_script"]
+[ext_resource type="Script" path="res://scenes/ui/hud/hud_gaslighter.gd" id="2_gaslighter"]
 
 ; ── HUD (CanvasLayer layer=10) ────────────────────────────────
 ; CanvasLayer isola a HUD da CanvasModulate do mundo —
@@ -112,6 +113,23 @@ offset_bottom = 26.0
 text = ""
 theme_override_font_sizes/font_size = 8
 autowrap_mode = 3
+
+; ── HUD Gaslighter ───────────────────────────────────────────
+; Gerencia as 5 manipulações psicológicas quando Sanidade < 15.
+; PhantomArrow: Label "▶" posicionada dinamicamente na borda da tela.
+
+[node name="HUDGaslighter" type="Node" parent="."]
+script = ExtResource("2_gaslighter")
+
+[node name="PhantomArrow" type="Label" parent="HUDGaslighter"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 16.0
+offset_bottom = 16.0
+text = "▶"
+modulate = Color(1.0, 0.1, 0.1, 1.0)
+theme_override_font_sizes/font_size = 12
 
 ; ── Flash de dano (cobre a tela inteira por instante) ─────────
 ; Cor vermelha com alpha=0; o script anima o alpha via modulate

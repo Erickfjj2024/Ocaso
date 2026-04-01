@@ -23,6 +23,12 @@ const BAR_MAX_WIDTH: float = 60.0
 # HP máximo local — atualizado via player_hp_changed
 var _max_hp: float = 100.0
 
+## Flags de bloqueio usadas pelo HUDGaslighter para sobrescrever as barras.
+## Quando true, o update real da barra é ignorado.
+var hp_locked:     bool = false
+var sanity_locked: bool = false
+var taels_locked:  bool = false
+
 # ─────────────────────────────────────────────────────────────
 # INICIALIZAÇÃO
 # ─────────────────────────────────────────────────────────────
@@ -48,6 +54,8 @@ func _ready() -> void:
 # ─────────────────────────────────────────────────────────────
 
 func _update_hp_bar(new_hp: float, max_hp: float) -> void:
+	if hp_locked:
+		return
 	_max_hp = max_hp
 	var pct := clampf(new_hp / max_hp, 0.0, 1.0)
 	_hp_fill.size.x = BAR_MAX_WIDTH * pct
@@ -57,6 +65,8 @@ func _update_hp_bar(new_hp: float, max_hp: float) -> void:
 		_hp_fill.color = Color(1.0, 0.1, 0.1)    # vermelho crítico
 
 func _update_sanity_bar(value: float) -> void:
+	if sanity_locked:
+		return
 	var pct := clampf(value / SanityManager.MAX_SANITY, 0.0, 1.0)
 	_sanity_fill.size.x = BAR_MAX_WIDTH * pct
 
@@ -89,6 +99,8 @@ func _on_player_hp_changed(new_hp: float, max_hp: float) -> void:
 	_update_hp_bar(new_hp, max_hp)
 
 func _on_taels_changed(new_amount: int) -> void:
+	if taels_locked:
+		return
 	_taels_label.text = "T: %d" % new_amount
 
 func _on_npc_dialogue(text: String) -> void:
