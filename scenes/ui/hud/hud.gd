@@ -14,6 +14,8 @@ extends CanvasLayer
 @onready var _lantern_label: Label    = $LanternLabel
 @onready var _damage_flash:  ColorRect = $DamageFlash
 @onready var _taels_label:   Label     = $TaelsLabel
+@onready var _dialogue_bg:   ColorRect = $DialogueBG
+@onready var _dialogue_text: Label     = $DialogueBG/DialogueText
 
 # Largura máxima das barras em pixels (deve coincidir com o BG de cada barra)
 const BAR_MAX_WIDTH: float = 60.0
@@ -32,6 +34,7 @@ func _ready() -> void:
 	EventBus.lantern_durability_changed.connect(_on_lantern_durability_changed)
 	EventBus.lantern_toggled.connect(_on_lantern_toggled)
 	EventBus.taels_changed.connect(_on_taels_changed)
+	EventBus.npc_dialogue_requested.connect(_on_npc_dialogue)
 
 	# Sincroniza com o estado atual dos managers ao entrar na cena
 	_update_hp_bar(100.0, 100.0)
@@ -87,6 +90,13 @@ func _on_player_hp_changed(new_hp: float, max_hp: float) -> void:
 
 func _on_taels_changed(new_amount: int) -> void:
 	_taels_label.text = "T: %d" % new_amount
+
+func _on_npc_dialogue(text: String) -> void:
+	_dialogue_text.text = text
+	_dialogue_bg.visible = true
+	await get_tree().create_timer(3.0).timeout
+	if is_instance_valid(_dialogue_bg):
+		_dialogue_bg.visible = false
 
 func _on_player_damaged(_amount: float, _source: String) -> void:
 	_damage_flash.color.a = 0.45

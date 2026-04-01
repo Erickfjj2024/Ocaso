@@ -92,6 +92,27 @@ offset_bottom = 46.0
 text = "T: 0"
 theme_override_font_sizes/font_size = 8
 
+; ── Caixa de diálogo de NPC ───────────────────────────────────
+; Aparece na base da tela ao interagir com NPCs.
+; Começa invisível — o script controla a visibilidade.
+
+[node name="DialogueBG" type="ColorRect" parent="."]
+visible = false
+offset_left = 20.0
+offset_top = 148.0
+offset_right = 300.0
+offset_bottom = 178.0
+color = Color(0.08, 0.06, 0.1, 0.9)
+
+[node name="DialogueText" type="Label" parent="DialogueBG"]
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 274.0
+offset_bottom = 26.0
+text = ""
+theme_override_font_sizes/font_size = 8
+autowrap_mode = 3
+
 ; ── Flash de dano (cobre a tela inteira por instante) ─────────
 ; Cor vermelha com alpha=0; o script anima o alpha via modulate
 [node name="DamageFlash" type="ColorRect" parent="."]

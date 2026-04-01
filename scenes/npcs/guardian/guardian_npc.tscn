@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/npcs/guardian/guardian_npc.gd" id="1_script"]
+
+; Colisão da zona de interação (r=20 — player chega perto e pressiona E)
+[sub_resource type="CircleShape2D" id="Circle_interact"]
+radius = 20.0
+
+; Silhueta placeholder do Guardião — retângulo vertical escuro
+[sub_resource type="RectangleShape2D" id="Rect_body"]
+size = Vector2(8, 18)
+
+; ── Raiz ─────────────────────────────────────────────────────
+[node name="GuardianNPC" type="Node2D"]
+script = ExtResource("1_script")
+
+; Corpo visual placeholder — cinza escuro, silhueta humanoide
+[node name="BodyPlaceholder" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-4, -9, 4, -9, 4, 9, -4, 9)
+color = Color(0.3, 0.25, 0.35, 1.0)
+
+; Cabeça visual placeholder
+[node name="HeadPlaceholder" type="Polygon2D" parent="."]
+position = Vector2(0, -14)
+polygon = PackedVector2Array(-3, -3, 3, -3, 3, 3, -3, 3)
+color = Color(0.35, 0.28, 0.4, 1.0)
+
+; Zona de interação — detecta o player (mask 1 = player_body)
+[node name="InteractionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionZone"]
+shape = SubResource("Circle_interact")
+
+; Indicador visual "pressione E" — exibido pelo HUD via npc_dialogue_requested

@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/base_hub/base_hub.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud/hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/base/stalker_base.tscn" id="4_stalker"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/guardian/guardian_npc.tscn" id="5_guardian"]
 
 ; Paredes da sala — 4 retângulos finos formando uma arena 288×156 px
 [sub_resource type="RectangleShape2D" id="Wall_top"]
@@ -94,6 +95,11 @@ position = Vector2(0, 0)
 ; IMPORTANTE: abra base_hub.tscn no editor e desenhe o NavigationPolygon
 ; cobrindo o interior da sala (área livre de paredes).
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+; ── Guardião — NPC placeholder (canto noroeste da sala) ──────
+; Pressionar E perto dele exibe diálogo via HUD.
+[node name="GuardianNPC" parent="." instance=ExtResource("5_guardian")]
+position = Vector2(-100, -40)
 
 ; ── Stalker de teste ──────────────────────────────────────────
 ; Posicionado à direita do player (0,0) dentro da sala

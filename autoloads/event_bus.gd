@@ -129,3 +129,7 @@ signal guardian_transformation_started()
 
 ## Emitido para travar ou destravar a base do jogador.
 signal base_lockdown(is_locked: bool)
+
+## Emitido por NPCs para exibir uma fala via HUD.
+## text: texto a exibir na caixa de diálogo
+signal npc_dialogue_requested(text: String)

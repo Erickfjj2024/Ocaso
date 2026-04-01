@@ -102,6 +102,45 @@ autoloads/inventory_manager.gd    ← +scar_fragments, +add_fragments(), drop 15
 project.godot                     ← +ScarTreeManager
 ```
 
+---
+
+## SPRINT 9 — FASE 3 Parte 3: SaveManager + Guardião — CONCLUÍDO ✅
+
+### O que foi feito
+- [x] `autoloads/save_manager.gd` (9ª prioridade)
+  - `save_game()`: serializa Sanidade, Lanterna, Inventário (taels+frags+item_ids), ScarTree, WorldFlags, scene_path → JSON em `user://ocaso_save.json`
+  - `load_game()`: desserializa e restaura todos os estados; muda para a cena salva
+  - `has_save()`, `delete_save()` para gerenciamento de nova partida
+  - Escuta `EventBus.save_requested` e `EventBus.load_requested`
+- [x] `scenes/npcs/guardian/guardian_npc.gd` + `.tscn`
+  - Area2D de interação (r=20, mask=1); player pressiona E → fala diálogo
+  - 5 diálogos indexados por `WorldFlags["base_visits"]`; incrementa a cada instanciação
+  - Placeholder visual: Polygon2D corpo + cabeça (cinza-roxo escuro)
+- [x] `autoloads/event_bus.gd` — sinal `npc_dialogue_requested(text: String)` adicionado
+- [x] `scenes/ui/hud/hud.gd` + `.tscn` — caixa de diálogo (DialogueBG + DialogueText); aparece 3s ao receber `npc_dialogue_requested`, depois some
+- [x] `scenes/world/base_hub/base_hub.tscn` — GuardianNPC instanciado em (-100, -40)
+- [x] `project.godot` — SaveManager registrado como 9ª Autoload
+- [x] `game_manager.gd` — stubs `_on_save_requested`/`_on_load_requested` delegam ao SaveManager
+
+### Arquivos criados/modificados
+```
+autoloads/save_manager.gd                   ← NOVO
+scenes/npcs/guardian/guardian_npc.gd        ← NOVO
+scenes/npcs/guardian/guardian_npc.tscn      ← NOVO
+autoloads/event_bus.gd                      ← +npc_dialogue_requested
+scenes/ui/hud/hud.gd                        ← +diálogo NPC
+scenes/ui/hud/hud.tscn                      ← +DialogueBG/DialogueText
+scenes/world/base_hub/base_hub.tscn         ← +GuardianNPC
+project.godot                               ← +SaveManager
+autoloads/game_manager.gd                   ← stubs conectados
+```
+
+## FASE 3 — COMPLETA ✅
+| 3.1 | InventoryManager | ✅ | 3.2 | Taels | ✅ | 3.3 | Penalidade de morte | ✅ |
+| 3.4 | Base Hub + Guardião | ✅ | 3.5/3.6 | ScarTree + Manager | ✅ | 3.7 | SaveManager | ✅ |
+
+---
+
 ### Lógica de drop de Taels
 - Stalker morto → `enemy_killed` → InventoryManager escuta → adiciona 5–15 Taels aleatórios
 - Morte do player → GameManager → `apply_death_penalty()` → perde 50% dos Taels acumulados

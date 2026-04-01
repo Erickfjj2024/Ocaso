@@ -138,12 +138,10 @@ func _on_sanity_threshold_crossed(threshold: String) -> void:
 		trigger_game_over("sanity_zero")
 
 func _on_save_requested() -> void:
-	# SaveManager (Fase 3) irá implementar a lógica real.
-	push_warning("GameManager: save_requested recebido. SaveManager ainda não implementado.")
+	SaveManager.save_game()
 
 func _on_load_requested() -> void:
-	# SaveManager (Fase 3) irá implementar a lógica real.
-	push_warning("GameManager: load_requested recebido. SaveManager ainda não implementado.")
+	SaveManager.load_game()
 
 # ─────────────────────────────────────────────────────────────
 # INPUT — PAUSA
