@@ -1,0 +1,261 @@
+{
+  "pairs": [
+    {
+      "root_id": "root_flesh",
+      "root_name": "Marca da Carne",
+      "path_a": {
+        "id": "path_body",
+        "name": "Corpo",
+        "locks": "path_spirit",
+        "nodes": [
+          {
+            "id": "body_01",
+            "name": "Pele de Ferro",
+            "description": "+20% Vida Máxima",
+            "cost_taels": 150,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "max_health", "modifier": "multiply", "value": 1.2 }
+            ]
+          },
+          {
+            "id": "body_02",
+            "name": "Sangue Espesso",
+            "description": "Regenera 1 HP a cada 5s",
+            "cost_taels": 250,
+            "cost_fragments": 2,
+            "requires": "body_01",
+            "effects": [
+              { "stat": "hp_regen", "modifier": "additive", "value": 1.0 }
+            ]
+          },
+          {
+            "id": "body_03",
+            "name": "Coração Blindado",
+            "description": "-25% dano recebido, mas Sanidade drena 30% mais rápido no escuro",
+            "cost_taels": 400,
+            "cost_fragments": 3,
+            "requires": "body_02",
+            "effects": [
+              { "stat": "damage_reduction", "modifier": "additive", "value": 0.25 },
+              { "stat": "sanity_drain_mult", "modifier": "multiply", "value": 1.3 }
+            ]
+          }
+        ]
+      },
+      "path_b": {
+        "id": "path_spirit",
+        "name": "Espírito",
+        "locks": "path_body",
+        "nodes": [
+          {
+            "id": "spirit_01",
+            "name": "Véu Interior",
+            "description": "+15% Sanidade Máxima",
+            "cost_taels": 150,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "max_sanity", "modifier": "multiply", "value": 1.15 }
+            ]
+          },
+          {
+            "id": "spirit_02",
+            "name": "Meditação Passiva",
+            "description": "Regenera 2 Sanidade/5s mesmo no escuro",
+            "cost_taels": 250,
+            "cost_fragments": 2,
+            "requires": "spirit_01",
+            "effects": [
+              { "stat": "sanity_regen", "modifier": "additive", "value": 2.0 }
+            ]
+          },
+          {
+            "id": "spirit_03",
+            "name": "Olho Interior",
+            "description": "Vê contorno de Stalkers no escuro, mas -25% Vida Máxima",
+            "cost_taels": 400,
+            "cost_fragments": 3,
+            "requires": "spirit_02",
+            "effects": [
+              { "stat": "enemy_vision_enabled", "modifier": "additive", "value": 1.0 },
+              { "stat": "max_health", "modifier": "multiply", "value": 0.75 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "root_id": "root_oath",
+      "root_name": "Juramento de Sangue",
+      "path_a": {
+        "id": "path_blade",
+        "name": "Lâmina",
+        "locks": "path_curse",
+        "nodes": [
+          {
+            "id": "blade_01",
+            "name": "Fio Afiado",
+            "description": "+30% Dano Melee",
+            "cost_taels": 200,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "melee_damage", "modifier": "multiply", "value": 1.3 }
+            ]
+          },
+          {
+            "id": "blade_02",
+            "name": "Golpe Faminto",
+            "description": "Matar inimigo recupera 5% da Durabilidade da Lanterna",
+            "cost_taels": 300,
+            "cost_fragments": 2,
+            "requires": "blade_01",
+            "effects": [
+              { "stat": "kill_lantern_restore", "modifier": "additive", "value": 0.05 }
+            ]
+          },
+          {
+            "id": "blade_03",
+            "name": "Execução Brutal",
+            "description": "Dano crítico 2x se inimigo com <25% HP, mas cada kill drena 3 Sanidade",
+            "cost_taels": 500,
+            "cost_fragments": 3,
+            "requires": "blade_02",
+            "effects": [
+              { "stat": "execute_threshold", "modifier": "additive", "value": 0.25 },
+              { "stat": "kill_sanity_drain", "modifier": "additive", "value": 3.0 }
+            ]
+          }
+        ]
+      },
+      "path_b": {
+        "id": "path_curse",
+        "name": "Maldição",
+        "locks": "path_blade",
+        "nodes": [
+          {
+            "id": "curse_01",
+            "name": "Toque Entrópico",
+            "description": "Ataque melee drena 5 de Sanidade do alvo",
+            "cost_taels": 200,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "attack_sanity_drain_target", "modifier": "additive", "value": 5.0 }
+            ]
+          },
+          {
+            "id": "curse_02",
+            "name": "Sífon de Almas",
+            "description": "Matar inimigo recupera 10 de Sanidade",
+            "cost_taels": 300,
+            "cost_fragments": 2,
+            "requires": "curse_01",
+            "effects": [
+              { "stat": "kill_sanity_restore", "modifier": "additive", "value": 10.0 }
+            ]
+          },
+          {
+            "id": "curse_03",
+            "name": "Praga Rastejante",
+            "description": "Inimigos atingidos ficam lentos 3s, mas -20% Dano Melee",
+            "cost_taels": 500,
+            "cost_fragments": 3,
+            "requires": "curse_02",
+            "effects": [
+              { "stat": "hit_slow_duration", "modifier": "additive", "value": 3.0 },
+              { "stat": "melee_damage", "modifier": "multiply", "value": 0.8 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "root_id": "root_flame",
+      "root_name": "Pacto com a Chama",
+      "path_a": {
+        "id": "path_lantern",
+        "name": "Lanterna",
+        "locks": "path_shadow",
+        "nodes": [
+          {
+            "id": "lantern_01",
+            "name": "Chama Duradoura",
+            "description": "-30% consumo de Durabilidade da Lanterna",
+            "cost_taels": 175,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "lantern_drain_mult", "modifier": "multiply", "value": 0.7 }
+            ]
+          },
+          {
+            "id": "lantern_02",
+            "name": "Pulso Esmeralda",
+            "description": "Lanterna emite pulso a cada 10s que empurra Stalkers",
+            "cost_taels": 275,
+            "cost_fragments": 2,
+            "requires": "lantern_01",
+            "effects": [
+              { "stat": "lantern_pulse_enabled", "modifier": "additive", "value": 1.0 }
+            ]
+          },
+          {
+            "id": "lantern_03",
+            "name": "Farol Abrasador",
+            "description": "Stalkers na luz recebem 2 DPS, mas raio da lanterna -40%",
+            "cost_taels": 450,
+            "cost_fragments": 3,
+            "requires": "lantern_02",
+            "effects": [
+              { "stat": "lantern_dps", "modifier": "additive", "value": 2.0 },
+              { "stat": "lantern_radius_mult", "modifier": "multiply", "value": 0.6 }
+            ]
+          }
+        ]
+      },
+      "path_b": {
+        "id": "path_shadow",
+        "name": "Sombra",
+        "locks": "path_lantern",
+        "nodes": [
+          {
+            "id": "shadow_01",
+            "name": "Olhos da Noite",
+            "description": "Dreno de Sanidade no escuro reduzido em 40%",
+            "cost_taels": 175,
+            "cost_fragments": 1,
+            "requires": null,
+            "effects": [
+              { "stat": "sanity_drain_mult", "modifier": "multiply", "value": 0.6 }
+            ]
+          },
+          {
+            "id": "shadow_02",
+            "name": "Passo Silente",
+            "description": "Stalkers demoram 2x mais para detectar o player no escuro",
+            "cost_taels": 275,
+            "cost_fragments": 2,
+            "requires": "shadow_01",
+            "effects": [
+              { "stat": "detection_time_mult", "modifier": "multiply", "value": 2.0 }
+            ]
+          },
+          {
+            "id": "shadow_03",
+            "name": "Abraço do Vazio",
+            "description": "Abaixo de 20 Sanidade, fica invisível por 4s (cooldown 30s), mas Lanterna desliga",
+            "cost_taels": 450,
+            "cost_fragments": 3,
+            "requires": "shadow_02",
+            "effects": [
+              { "stat": "void_embrace_enabled", "modifier": "additive", "value": 1.0 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

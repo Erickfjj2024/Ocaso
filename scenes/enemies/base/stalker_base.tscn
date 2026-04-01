@@ -1,0 +1,124 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/base/stalker_base.gd" id="1_base"]
+[ext_resource type="Script" path="res://scenes/enemies/base/stalker_state_machine.gd" id="2_fsm"]
+[ext_resource type="Script" path="res://scenes/enemies/base/light_sensor.gd" id="3_light"]
+[ext_resource type="Script" path="res://scenes/enemies/base/backstab_detector.gd" id="4_backstab"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hurtbox.gd" id="5_hurtbox"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hitbox.gd" id="6_hitbox"]
+
+; Cápsula de colisão do corpo
+[sub_resource type="CapsuleShape2D" id="Capsule_1"]
+radius = 5.0
+height = 10.0
+
+; Zona de detecção do player (r=80px)
+[sub_resource type="CircleShape2D" id="Circle_detect"]
+radius = 80.0
+
+; Sensor de luz da lanterna (r=32px — bem próximo)
+[sub_resource type="CircleShape2D" id="Circle_light"]
+radius = 32.0
+
+; HurtBox — recebe golpes do player (layer=3, mask=5 player_hitbox)
+[sub_resource type="CircleShape2D" id="Circle_hurt"]
+radius = 10.0
+
+; HitBox — causa dano ao player (layer=6, mask=0)
+[sub_resource type="CircleShape2D" id="Circle_hit"]
+radius = 10.0
+
+; ── Raiz ─────────────────────────────────────────────────────
+; Layer 3 = enemies | Mask 2 = terrain
+[node name="StalkerBase" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 2
+script = ExtResource("1_base")
+
+; Colisão do corpo
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("Capsule_1")
+
+; Placeholder visual — roxo escuro
+[node name="BodyPlaceholder" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-5, -10, 5, -10, 5, 10, -5, 10)
+color = Color(0.45, 0.1, 0.6, 1.0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+; ── FSM ──────────────────────────────────────────────────────
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_fsm")
+
+; ── NavigationAgent2D ─────────────────────────────────────────
+; Requer NavigationRegion2D na cena pai. Fallback para movimento direto se ausente.
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+target_desired_distance = 12.0
+
+; ── DetectionZone ─────────────────────────────────────────────
+; Layer 0 (sem layer própria) | Mask 1 = player_body
+; Detecta CharacterBody2D do player (grupo "player")
+[node name="DetectionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionZone"]
+shape = SubResource("Circle_detect")
+
+; ── LightSensor ──────────────────────────────────────────────
+; Mask 4 = lantern_cone (LanternCone do player está na layer 4)
+[node name="LightSensor" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("3_light")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightSensor"]
+shape = SubResource("Circle_light")
+
+; ── BackstabDetector ─────────────────────────────────────────
+[node name="BackstabDetector" type="Node" parent="."]
+script = ExtResource("4_backstab")
+
+; ── HurtBox — recebe dano do player ──────────────────────────
+; Layer 3 | Mask 5 = player_hitbox
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 5
+script = ExtResource("5_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("Circle_hurt")
+
+; ── HitBox — causa dano ao player ────────────────────────────
+; Layer 6 = enemy_hitbox | Mask 0 (player HurtBox monitora layer 6)
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 6
+collision_mask = 0
+script = ExtResource("6_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("Circle_hit")
+
+; ── Barra de HP flutuante (acima do inimigo) ─────────────────
+[node name="EnemyHPBar" type="Node2D" parent="."]
+position = Vector2(0, -16)
+
+; Fundo escuro da barra
+[node name="HPBarBG" type="ColorRect" parent="EnemyHPBar"]
+offset_left = -15.0
+offset_top = 0.0
+offset_right = 15.0
+offset_bottom = 3.0
+color = Color(0.1, 0.1, 0.1, 0.8)
+
+; Preenchimento vermelho da barra
+[node name="HPBarFill" type="ColorRect" parent="EnemyHPBar"]
+offset_left = -15.0
+offset_top = 0.0
+offset_right = 15.0
+offset_bottom = 3.0
+color = Color(0.85, 0.15, 0.15, 1.0)

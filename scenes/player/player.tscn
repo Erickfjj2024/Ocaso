@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player_lantern.tscn" id="2_lantern"]
+[ext_resource type="Script" path="res://scenes/player/player_combat.gd" id="3_combat"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hurtbox.gd" id="4_hurtbox"]
+[ext_resource type="Script" path="res://scenes/enemies/base/hitbox.gd" id="5_hitbox"]
+
+; Cápsula de colisão do corpo do player
+[sub_resource type="CapsuleShape2D" id="Capsule_1"]
+radius = 5.0
+height = 10.0
+
+; HurtBox — círculo que envolve o corpo (recebe dano)
+; Layer 8 = player_hurtbox | monitorado por hitboxes de inimigos
+[sub_resource type="CircleShape2D" id="Circle_hurtbox"]
+radius = 8.0
+
+; HitBox — círculo frontal do ataque (causa dano)
+; Layer 5 = player_hitbox | monitorável por hurtboxes de inimigos
+[sub_resource type="CircleShape2D" id="Circle_hitbox"]
+radius = 10.0
+
+; ── Raiz do Player ────────────────────────────────────────────
+; Layer 1 = "player" | Mask 2 = "walls"
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_script")
+
+; Hitbox do corpo (receber colisão com paredes)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("Capsule_1")
+
+; Sprite placeholder: retângulo vermelho 10×20 px
+; Substituir por Sprite2D + spritesheet quando o art estiver pronto
+[node name="BodyPlaceholder" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-5, -10, 5, -10, 5, 10, -5, 10)
+color = Color(0.85, 0.25, 0.25, 1.0)
+
+; AnimationPlayer — sem animações por ora (placeholder)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+; Câmera que segue o player — zoom 1×1 (viewport já é 320×180 escalado)
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+; Sub-cena da lanterna instanciada como filha do player
+[node name="PlayerLantern" parent="." instance=ExtResource("2_lantern")]
+
+; Componente de combate: HP, take_damage, start_attack
+[node name="PlayerCombat" type="Node" parent="."]
+script = ExtResource("3_combat")
+
+; HurtBox: recebe dano de inimigos (layer 8, monitora layer 6 = enemy_hitbox)
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("4_hurtbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("Circle_hurtbox")
+
+; HitBox: causa dano em inimigos ao atacar (layer 5, monitorável por enemy_hurtbox)
+; Inicia inativo — player_combat.gd chama activate() ao atacar
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("5_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(10, 0)
+shape = SubResource("Circle_hitbox")

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/guilt_ghost/guilt_ghost.gd" id="1_script"]
+
+; Fantasma detecta o corpo do player (CharacterBody2D, layer 1)
+[sub_resource type="CircleShape2D" id="Circle_ghost"]
+radius = 7.0
+
+; ── Raiz ─────────────────────────────────────────────────────
+; Area2D: collision_layer=0 (não colide com nada), mask=1 (detecta player body)
+; O fantasma atravessa paredes pois não tem collision_layer no body.
+[node name="GuiltGhost" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+monitoring = true
+monitorable = false
+script = ExtResource("1_script")
+
+; Placeholder visual — losango branco-azulado translúcido
+; A opacidade pulsa via modulate no script.
+[node name="GhostShape" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -8, 6, 0, 0, 8, -6, 0)
+color = Color(0.75, 0.85, 1.0, 0.7)
+
+; Contorno mais brilhante (camada interna menor)
+[node name="GhostCore" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -4, 3, 0, 0, 4, -3, 0)
+color = Color(0.9, 0.95, 1.0, 0.9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Circle_ghost")

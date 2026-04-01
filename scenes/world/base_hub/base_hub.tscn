@@ -1,0 +1,124 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/base_hub/base_hub.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/base/stalker_base.tscn" id="4_stalker"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/guardian/guardian_npc.tscn" id="5_guardian"]
+[ext_resource type="PackedScene" path="res://scenes/ui/sanity_vfx/sanity_vfx.tscn" id="6_vfx"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/lost_npc/lost_npc.tscn" id="7_lostnpc"]
+[ext_resource type="Script" path="res://scenes/world/guilt_spawner.gd" id="8_spawner"]
+
+; Paredes da sala — 4 retângulos finos formando uma arena 288×156 px
+[sub_resource type="RectangleShape2D" id="Wall_top"]
+size = Vector2(288, 10)
+
+[sub_resource type="RectangleShape2D" id="Wall_bottom"]
+size = Vector2(288, 10)
+
+[sub_resource type="RectangleShape2D" id="Wall_left"]
+size = Vector2(10, 156)
+
+[sub_resource type="RectangleShape2D" id="Wall_right"]
+size = Vector2(10, 156)
+
+; ── Raiz da cena ──────────────────────────────────────────────
+[node name="BaseHub" type="Node2D"]
+script = ExtResource("1_script")
+
+; ── Escuridão global ──────────────────────────────────────────
+; CanvasModulate escurece TODO o canvas — a PointLight2D do player
+; perfura essa escuridão, criando o efeito de "só a lanterna ilumina".
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.04, 0.04, 0.08, 1.0)
+
+; ── Chão visual (cinza escuro) ────────────────────────────────
+[node name="Floor" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-144, -78, 144, -78, 144, 78, -144, 78)
+color = Color(0.14, 0.12, 0.16, 1.0)
+
+; ── Parede visual norte ───────────────────────────────────────
+[node name="WallVisualTop" type="Polygon2D" parent="."]
+position = Vector2(0, -83)
+polygon = PackedVector2Array(-144, -5, 144, -5, 144, 5, -144, 5)
+color = Color(0.25, 0.22, 0.28, 1.0)
+
+; ── Parede visual sul ─────────────────────────────────────────
+[node name="WallVisualBottom" type="Polygon2D" parent="."]
+position = Vector2(0, 83)
+polygon = PackedVector2Array(-144, -5, 144, -5, 144, 5, -144, 5)
+color = Color(0.25, 0.22, 0.28, 1.0)
+
+; ── Parede visual oeste ───────────────────────────────────────
+[node name="WallVisualLeft" type="Polygon2D" parent="."]
+position = Vector2(-149, 0)
+polygon = PackedVector2Array(-5, -78, 5, -78, 5, 78, -5, 78)
+color = Color(0.25, 0.22, 0.28, 1.0)
+
+; ── Parede visual leste ───────────────────────────────────────
+[node name="WallVisualRight" type="Polygon2D" parent="."]
+position = Vector2(149, 0)
+polygon = PackedVector2Array(-5, -78, 5, -78, 5, 78, -5, 78)
+color = Color(0.25, 0.22, 0.28, 1.0)
+
+; ── Colisão das paredes ───────────────────────────────────────
+; Layer 2 = "walls" — Player (mask 2) colide com este body
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="WallTop" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -83)
+shape = SubResource("Wall_top")
+
+[node name="WallBottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 83)
+shape = SubResource("Wall_bottom")
+
+[node name="WallLeft" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-149, 0)
+shape = SubResource("Wall_left")
+
+[node name="WallRight" type="CollisionShape2D" parent="Walls"]
+position = Vector2(149, 0)
+shape = SubResource("Wall_right")
+
+; ── Player ────────────────────────────────────────────────────
+; Instância do player — começa no centro da sala
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 0)
+
+; ── HUD ───────────────────────────────────────────────────────
+; CanvasLayer layer=10 — não afetado pelo CanvasModulate do mundo
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+; ── SanityVFX ──────────────────────────────────────────────
+; CanvasLayer layer=2 — vinheta + tint roxo escalam com a Sanidade
+[node name="SanityVFX" parent="." instance=ExtResource("6_vfx")]
+
+; ── NavigationRegion2D ───────────────────────────────────────
+; Necessário para NavigationAgent2D do Stalker.
+; O polígono de navegação deve cobrir o chão jogável (288×156 px centrado em 0,0).
+; IMPORTANTE: abra base_hub.tscn no editor e desenhe o NavigationPolygon
+; cobrindo o interior da sala (área livre de paredes).
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+; ── Guardião — NPC placeholder (canto noroeste da sala) ──────
+; Pressionar E perto dele exibe diálogo via HUD.
+[node name="GuardianNPC" parent="." instance=ExtResource("5_guardian")]
+position = Vector2(-100, -40)
+
+; ── NPC Perdido de teste ─────────────────────────────────────
+; Pressionar E para interagir; Z durante a janela = sacrificar
+[node name="LostNPC" parent="." instance=ExtResource("7_lostnpc")]
+position = Vector2(60, -50)
+
+; ── Eco da Culpa: spawner de fantasmas ───────────────────────
+; Ativo somente quando WorldFlags["has_murdered"]=true
+[node name="GuiltSpawner" type="Node" parent="."]
+script = ExtResource("8_spawner")
+
+; ── Stalker de teste ──────────────────────────────────────────
+; Posicionado à direita do player (0,0) dentro da sala
+[node name="StalkerBase" parent="." instance=ExtResource("4_stalker")]
+position = Vector2(90, 20)
