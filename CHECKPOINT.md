@@ -76,6 +76,32 @@ scenes/player/
 - [x] `game_manager.gd` — trigger_game_over chama InventoryManager.apply_death_penalty()
 - [x] `hud.gd` + `hud.tscn` — Contador de Taels ("T: 0") atualizado via EventBus.taels_changed
 
+---
+
+## SPRINT 8 — FASE 3 Parte 2: Árvore de Cicatrizes — CONCLUÍDO ✅
+
+### O que foi feito
+- [x] `data/scar_tree_definition.json` — 3 pares × 2 caminhos × 3 nós = 18 nós compráveis
+  - Par 1: Corpo vs. Espírito (Vida/Regen vs. Sanidade/Visão)
+  - Par 2: Lâmina vs. Maldição (Dano/Execute vs. Controle/Almas)
+  - Par 3: Lanterna vs. Sombra (Chama/Pulso vs. Noite/Invisibilidade)
+- [x] `autoloads/scar_tree_manager.gd` (6ª prioridade)
+  - Carrega JSON, constrói índices node→dados, node→path
+  - `can_purchase()`: valida path livre, pré-req sequencial, custo Taels+Fragmentos
+  - `purchase_node()`: deduz custo, bloqueia caminho oposto, emite sinais
+  - `get_multiplier(stat)` / `get_additive(stat)` / `has_effect(stat)` para outros sistemas
+  - `reset()` para nova partida
+- [x] `inventory_manager.gd` — adicionado `scar_fragments`, `add_fragments()`, drop 15% por kill
+- [x] `project.godot` — ScarTreeManager registrado como 6ª Autoload
+
+### Arquivos criados/modificados
+```
+data/scar_tree_definition.json    ← NOVO
+autoloads/scar_tree_manager.gd    ← NOVO
+autoloads/inventory_manager.gd    ← +scar_fragments, +add_fragments(), drop 15%
+project.godot                     ← +ScarTreeManager
+```
+
 ### Lógica de drop de Taels
 - Stalker morto → `enemy_killed` → InventoryManager escuta → adiciona 5–15 Taels aleatórios
 - Morte do player → GameManager → `apply_death_penalty()` → perde 50% dos Taels acumulados

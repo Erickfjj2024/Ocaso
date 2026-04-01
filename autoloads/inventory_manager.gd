@@ -24,7 +24,8 @@ const STALKER_TAEL_DROP_MAX: int = 15
 # ESTADO
 # ─────────────────────────────────────────────────────────────
 
-var taels: int = 0
+var taels: int           = 0
+var scar_fragments: int  = 0   # drop raro de Stalkers e Lordes
 var _items: Array[Resource] = []
 
 # ─────────────────────────────────────────────────────────────
@@ -106,9 +107,14 @@ func apply_death_penalty() -> void:
 # RESET
 # ─────────────────────────────────────────────────────────────
 
+## Adiciona Fragmentos de Cicatriz (drop raro de inimigos e lordes).
+func add_fragments(amount: int) -> void:
+	scar_fragments += amount
+
 ## Zera inventário e Taels completamente (nova partida / SaveManager).
 func reset() -> void:
-	taels = 0
+	taels           = 0
+	scar_fragments  = 0
 	_items.clear()
 	EventBus.taels_changed.emit(taels)
 
@@ -118,3 +124,6 @@ func reset() -> void:
 
 func _on_enemy_killed(_enemy_id: String) -> void:
 	add_taels(randi_range(STALKER_TAEL_DROP_MIN, STALKER_TAEL_DROP_MAX))
+	# 15% de chance de dropar 1 Fragmento de Cicatriz
+	if randf() < 0.15:
+		add_fragments(1)
