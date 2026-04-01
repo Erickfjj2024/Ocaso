@@ -37,6 +37,9 @@ var _last_move_direction: Vector2 = Vector2.DOWN
 # ─────────────────────────────────────────────────────────────
 
 func _ready() -> void:
+	# Grupo para que DetectionZone dos inimigos identifique este nó
+	add_to_group("player")
+
 	# Escutar gaslighting para inverter controles
 	EventBus.sanity_threshold_crossed.connect(_on_sanity_threshold_crossed)
 	EventBus.force_gaslighting.connect(_on_force_gaslighting)
